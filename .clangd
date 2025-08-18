@@ -1,0 +1,20 @@
+CompileFlags:
+#  Add: []
+  Remove: ["-fmodules-ts", "-flang-info-module-cmi", "-fdeps-format=p1689r5", "-fmodule-mapper=*"]
+
+Hover:
+  ShowAKA: true
+Index:
+  StandardLibrary: Yes
+InlayHints:
+  BlockEnd: No
+  Designators: Yes
+  Enabled: No
+  ParameterNames: Yes
+  DeducedTypes: Yes
+  TypeNameLimit: 24
+Diagnostics:
+  UnusedIncludes: Strict
+  # Suppress:
+  #   - "pp_expr_bad_token_binop"
+

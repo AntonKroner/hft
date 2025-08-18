@@ -1,0 +1,13 @@
+Python may be used for generating test data or plots, as long as it only uses the python standard library. 
+Write all other code in modern modules c++ available in gcc 14.2.0.
+We do not use separate header and implementation files: the entire module goes in a .cpp file.
+You do not have the correct compile flags to use import statements for the standard library, but no worries, we can use the regular #include for them.
+Start each file with "module;", then #includes, then "export module {module name};".
+Each .cpp file should export one and only class/namespace/struct/thingy that should have the exact same name as the module AND the file name.
+We use pascal case for types, and camel case for everything else.
+Do not use abbreviations nor acronyms, write out entire words, except for when the abbreviation is more common than the full word such as:
+- "id" for identifier
+- "max" and "min" for maximum and minimum
+or similar.
+We do not need EMPTY newlines after methods or functions nor after variable declarations, and also never anywhere inside of function bodies.
+However, there are newlines after semicolons, as usual.
