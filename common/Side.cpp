@@ -4,19 +4,17 @@ module;
 export module Side;
 export class Side {
     enum class Value : int8_t { SELL = -1, INVALID = 0, BUY = 1 };
-    Value value;
+    Value value = Value::INVALID;
   public:
     Side() = default;
     constexpr Side(Value side)
       : value(side) {
     }
-
     // #if Enable switch (fruit) use case:
     //     // Allow switch and comparisons.
     //     constexpr operator Value() const {
     //       return value;
     //     }
-
     //     // Prevent usage: if(fruit)
     //     explicit operator bool() const = delete;
     // #else
@@ -36,5 +34,4 @@ export class Side {
           return "INVALID";
       }
     }
-    // #endif
 };

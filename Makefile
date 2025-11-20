@@ -4,7 +4,7 @@ EXECUTABLE = hft.exe
 
 # -fprofile-generate -fprofile-use -flto -fwhole-program -no-rtti
 
-COMMON = ./common/id.cpp ./common/Side.cpp ./common/Price.cpp ./common/Quantity.cpp ./common/Priority.cpp ./common/common.cpp
+COMMON = ./common/Queue.cpp ./common/id.cpp ./common/Side.cpp ./common/Price.cpp ./common/Quantity.cpp ./common/Priority.cpp ./common/common.cpp
 
 MODULES = $(COMMON)
 
