@@ -4,9 +4,10 @@ EXECUTABLE = hft.exe
 
 # -fprofile-generate -fprofile-use -flto -fwhole-program -no-rtti
 
-COMMON = ./common/id.cpp ./common/Side.cpp ./common/Price.cpp ./common/Quantity.cpp ./common/Priority.cpp ./common/common.cpp
+COMMON = ./common/common.cpp ./common/Id/Base.cpp ./common/Id/Id.cpp
+BASIC = ./udp_socket.cpp ./latency.cpp ./order_book.cpp
 
-MODULES = $(COMMON)
+MODULES = $(BASIC)
 
 all: $(EXECUTABLE)
 $(EXECUTABLE): $(MODULES) main.cpp
