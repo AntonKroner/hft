@@ -4,35 +4,39 @@ module;
 #include <atomic>
 #include "./macro.h"
 export module Queue;
-export template<typename T> class Queue {
-    COMMON_MACRO_DELETE_CONSTRUCTOR(Queue)
-  public:
-    Queue(std::size_t size)
-      : store_(size, T()) {
-    }
-    auto getNextToWriteTo() noexcept {
-      return &store_[next_write_index_];
-    }
-    auto updateWriteIndex() noexcept {
-      next_write_index_ = (next_write_index_ + 1) % store_.size();
-      num_elements_++;
-    }
-    auto getNextToRead() const noexcept -> const T* {
-      return (size() ? &store_[next_read_index_] : nullptr);
-    }
-    auto updateReadIndex() noexcept {
-      next_read_index_ = (next_read_index_ + 1) % store_.size();
-      ASSERT(
-        num_elements_ != 0,
-        "Read an invalid element in:" + std::to_string(pthread_self()));
-      num_elements_--;
-    }
-    auto size() const noexcept {
-      return num_elements_.load();
-    }
-  private:
-    std::vector<T> store_;
-    std::atomic<size_t> next_write_index_ = { 0 };
-    std::atomic<size_t> next_read_index_ = { 0 };
-    std::atomic<size_t> num_elements_ = { 0 };
-};
+namespace common {
+  export template<typename T> class Queue {
+      COMMON_MACRO_DELETE_CONSTRUCTOR(Queue)
+    private:
+      std::vector<T> store_;
+      struct {
+          std::atomic<size_t> write = { 0 };
+          std::atomic<size_t> read = { 0 };
+      } index_;
+      std::atomic<size_t> length = { 0 };
+    public:
+      Queue(std::size_t length)
+        : store_(length, T()) {
+      }
+      auto getNextToWriteTo() noexcept {
+        return &this->store_[this->index_.write];
+      }
+      auto updateWriteIndex() noexcept {
+        this->index_.write = (this->index_.write + 1) % this->store_.size();
+        this->length++;
+      }
+      auto getNextToRead() const noexcept -> const T* {
+        return (this->size() ? &this->store_[this->index_.read] : nullptr);
+      }
+      auto updateReadIndex() noexcept {
+        this->index_.read = (this->index_.read + 1) % this->store_.size();
+        ASSERT(
+          this->length != 0,
+          "Read an invalid element in:" + std::to_string(pthread_self()));
+        this->length--;
+      }
+      auto size() const noexcept {
+        return this->length.load();
+      }
+  };
+} // namespace common

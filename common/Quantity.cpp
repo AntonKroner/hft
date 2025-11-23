@@ -2,4 +2,10 @@ module;
 #include <cstdint>
 export module Quantity;
 import id;
-export struct Quantity: public id::Base<std::uint32_t> { };
+namespace common {
+  export typedef std::uint32_t Quantity;
+  export constexpr Quantity QUANTITY_INVALID = id::INVALID<Quantity>;
+  export inline auto Quantity_stringify(Quantity quantity) {
+    return id::stringify(quantity);
+  }
+} // namespace common
