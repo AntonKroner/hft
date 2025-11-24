@@ -5,8 +5,8 @@ export module Side;
 namespace common {
   export class Side {
     public:
-      enum class Value : int8_t { SELL = -1, INVALID = 0, BUY = 1 };
-      Value value = Value::INVALID;
+      enum Value : int8_t { SELL = -1, INVALID = 0, BUY = 1 };
+      Value value = INVALID;
       Side() = default;
       constexpr Side(Value side)
         : value(side) {
@@ -27,13 +27,14 @@ namespace common {
       }
       static std::string stringify(Value side) {
         switch (side) {
-          case Value::SELL:
+          case SELL:
             return "SELL";
-          case Value::BUY:
+          case BUY:
             return "BUY";
-          case Value::INVALID:
+          case INVALID:
             return "INVALID";
         }
+        return "UNKNOWN";
       }
   };
 } // namespace common

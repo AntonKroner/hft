@@ -23,7 +23,7 @@ export struct Request {
     common::id::Client client_id_ = common::id::INVALID<common::id::Client>;
     common::id::Ticker ticker_id_ = common::id::INVALID<common::id::Ticker>;
     common::id::Order order_id_ = common::id::INVALID<common::id::Order>;
-    common::Side side_ = common::Side::Value::INVALID;
+    common::Side side_ = common::Side::INVALID;
     common::Price price_ = common::PRICE_INVALID;
     common::Quantity qty_ = common::QUANTITY_INVALID;
     // auto toString() const {

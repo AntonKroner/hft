@@ -33,7 +33,7 @@ export struct Response {
     common::id::Ticker ticker_id_ = common::id::INVALID<common::id::Ticker>;
     common::id::Order client_order_id_ = common::id::INVALID<common::id::Order>;
     common::id::Order market_order_id_ = common::id::INVALID<common::id::Order>;
-    common::Side side_ = common::Side::Value::INVALID;
+    common::Side side_ = common::Side::INVALID;
     common::Price price_ = common::PRICE_INVALID;
     common::Quantity exec_qty_ = common::QUANTITY_INVALID;
     common::Quantity leaves_qty_ = common::QUANTITY_INVALID;

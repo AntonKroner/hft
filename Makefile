@@ -5,7 +5,7 @@ EXECUTABLE = hft.exe
 # -fprofile-generate -fprofile-use -flto -fwhole-program -no-rtti
 
 COMMON = ./common/Queue.cpp ./common/Log.cpp ./common/id.cpp ./common/Side.cpp ./common/Price.cpp ./common/Quantity.cpp ./common/Priority.cpp ./common/common.cpp
-EXCHANGE = ./exchange/Request.cpp ./exchange/Response.cpp# ./exchange/Exchange.cpp
+EXCHANGE = ./exchange/Request.cpp ./exchange/Response.cpp ./exchange/MarketUpdate.cpp ./exchange/Order.cpp ./exchange/MatchingEngine.cpp# ./exchange/Exchange.cpp
 
 MODULES = $(COMMON) $(EXCHANGE)
 
