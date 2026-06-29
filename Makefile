@@ -1,17 +1,13 @@
 CC = g++-16
-CCFLAGS = -std=gnu++26 -fmodules-ts -flang-info-module-cmi -Wall -Wextra -Wpedantic# -fsanitize=address -static-libasan -fno-omit-frame-pointer #-O3
+CCFLAGS = -std=gnu++26 -fmodules-ts -flang-info-module-cmi -Wall -Wextra -Wpedantic
+# CCFLAGS += -fsanitize=address -static-libasan -fno-omit-frame-pointer
+# CCFLAGS += -O3 -fprofile-generate -fprofile-use -flto -fwhole-program -no-rtti
 EXECUTABLE = hft.exe
-
-# -fprofile-generate -fprofile-use -flto -fwhole-program -no-rtti
-
-COMMON = ./common/Queue.cpp ./common/Log.cpp ./common/id.cpp ./common/Side.cpp ./common/Price.cpp ./common/Quantity.cpp ./common/Priority.cpp ./common/common.cpp
-EXCHANGE = ./exchange/Request.cpp ./exchange/Response.cpp ./exchange/MarketUpdate.cpp ./exchange/Order.cpp #./exchange/OrderBook.cpp ./exchange/MatchingEngine.cpp# ./exchange/Exchange.cpp
-
-MODULES = $(COMMON) $(EXCHANGE)
-
+COMMON = common/id.cpp common/Side.cpp common/Price.cpp common/Quantity.cpp common/Priority.cpp common/Queue.cpp common/Pool.cpp common/Log.cpp common/common.cpp
+EXCHANGE = exchange/Request.cpp exchange/Response.cpp exchange/MarketUpdate.cpp exchange/Order.cpp exchange/OrderBook.cpp exchange/MatchingEngine.cpp
+SOURCES = $(COMMON) $(EXCHANGE) main.cpp
 all: $(EXECUTABLE)
-$(EXECUTABLE): $(MODULES) main.cpp
-	$(CC) $(CCFLAGS) $+ -o $@
-
+$(EXECUTABLE): $(SOURCES)
+	$(CC) $(CCFLAGS) $^ -o $@
 clean:
 	rm -f $(EXECUTABLE) ./build/* ./gcm.cache/* ./compile_commands.json

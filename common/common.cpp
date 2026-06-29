@@ -8,6 +8,7 @@ export import Priority;
 export import Side;
 export import Queue;
 export import Log;
+export import Pool;
 export namespace common {
   constexpr std::size_t LOG_QUEUE_SIZE = 8 * 1024 * 1024;
   constexpr std::size_t ME_MAX_TICKERS = 8;

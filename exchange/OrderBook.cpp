@@ -1,15 +1,17 @@
 module;
-#include "common/mem_pool.h"
-#include "common/logging.h"
 #include "order_server/client_response.h"
 #include "market_data/market_update.h"
-#include "me_order.h"
 export module OrderBook;
 import common;
+import Order;
 class MatchingEngine;
 export class OrderBook final {
   public:
-    explicit OrderBook(TickerId ticker_id, Logger* logger, MatchingEngine* matching_engine);
+    explicit OrderBook(
+      TickerId ticker_id,
+      common::Log* logger,
+      MatchingEngine* matching_engine);
+    COMMON_MACRO_DELETE_CONSTRUCTOR(OrderBook)
     ~OrderBook();
     auto add(
       ClientId client_id,
@@ -21,26 +23,20 @@ export class OrderBook final {
     auto cancel(ClientId client_id, OrderId order_id, TickerId ticker_id) noexcept
       -> void;
     auto toString(bool detailed, bool validity_check) const -> std::string;
-    // Deleted default, copy & move constructors and assignment-operators.
-    OrderBook() = delete;
-    OrderBook(const OrderBook&) = delete;
-    OrderBook(const OrderBook&&) = delete;
-    OrderBook& operator=(const OrderBook&) = delete;
-    OrderBook& operator=(const OrderBook&&) = delete;
   private:
     TickerId ticker_id_ = TickerId_INVALID;
     MatchingEngine* matching_engine_ = nullptr;
     ClientOrderHashMap cid_oid_to_order_;
-    MemPool<MEOrdersAtPrice> orders_at_price_pool_;
+    common::Pool<MEOrdersAtPrice> orders_at_price_pool_;
     MEOrdersAtPrice* bids_by_price_ = nullptr;
     MEOrdersAtPrice* asks_by_price_ = nullptr;
     OrdersAtPriceHashMap price_orders_at_price_;
-    MemPool<MEOrder> order_pool_;
+    common::Pool<MEOrder> order_pool_;
     MEClientResponse client_response_;
     MEMarketUpdate market_update_;
     OrderId next_market_order_id_ = 1;
     std::string time_str_;
-    Logger* logger_ = nullptr;
+    common::Log* logger_ = nullptr;
   private:
     auto generateNewMarketOrderId() noexcept -> OrderId {
       return next_market_order_id_++;
@@ -184,7 +180,10 @@ export class OrderBook final {
 };
 typedef std::array<OrderBook*, ME_MAX_TICKERS> OrderBookHashMap;
 
-OrderBook::OrderBook(TickerId ticker_id, Logger* logger, MatchingEngine* matching_engine)
+OrderBook::OrderBook(
+  TickerId ticker_id,
+  common::Log* logger,
+  MatchingEngine* matching_engine)
   : ticker_id_(ticker_id)
   , matching_engine_(matching_engine)
   , orders_at_price_pool_(ME_MAX_PRICE_LEVELS)
