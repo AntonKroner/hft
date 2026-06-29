@@ -4,9 +4,9 @@ module;
 #include <fstream>
 #include <cstdio>
 #include <atomic>
-#include "./macro.h"
-#include "./time_utils.h"
-#include "./thread_utils.h"
+#include "./macro.hpp"
+#include "./time_utils.hpp"
+#include "./thread_utils.hpp"
 export module Log;
 import Queue;
 namespace common {

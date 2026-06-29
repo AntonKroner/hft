@@ -2,7 +2,7 @@ module;
 #include <iostream>
 #include <vector>
 #include <atomic>
-#include "./macro.h"
+#include "./macro.hpp"
 export module Queue;
 namespace common {
   export template<typename T> class Queue {
