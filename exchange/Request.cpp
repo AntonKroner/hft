@@ -26,18 +26,18 @@ export struct Request {
     common::Side side_ = common::Side::INVALID;
     common::Price price_ = common::PRICE_INVALID;
     common::Quantity qty_ = common::QUANTITY_INVALID;
-    // auto toString() const {
-    //   std::stringstream ss;
-    //   ss << "Request"
-    //      << " ["
-    //      << "type:" << stringifyType(type_)
-    //      << " client:" << common::id::stringify(client_id_)
-    //      << " ticker:" << common::id::stringify(ticker_id_)
-    //      << " oid:" << common::id::stringify(order_id_)
-    //      << " side:" << common::Side::stringify(side_.value)
-    //      << " qty:" << common::Quantity_stringify(qty_)
-    //      << " price:" << common::Price_stringify(price_) << "]";
-    //   return ss.str();
-    // }
+    auto toString() const {
+      std::stringstream ss;
+      ss << "Request"
+         << " ["
+         << "type:" << stringifyType(type_)
+         << " client:" << common::id::stringify(client_id_)
+         << " ticker:" << common::id::stringify(ticker_id_)
+         << " oid:" << common::id::stringify(order_id_)
+         << " side:" << common::Side::stringify(side_.value)
+         << " qty:" << common::Quantity_stringify(qty_)
+         << " price:" << common::Price_stringify(price_) << "]";
+      return ss.str();
+    }
 };
 #pragma pack(pop)

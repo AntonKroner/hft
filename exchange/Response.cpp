@@ -37,20 +37,20 @@ export struct Response {
     common::Price price_ = common::PRICE_INVALID;
     common::Quantity exec_qty_ = common::QUANTITY_INVALID;
     common::Quantity leaves_qty_ = common::QUANTITY_INVALID;
-    // AUTO TOSTRING() CONST {
-    //   STD::STRINGSTREAM SS;
-    //   SS << "RESPONSE"
-    //      << " ["
-    //      << "TYPE:" << STRINGIFYTYPE(THIS->TYPE_)
-    //      << " CLIENT:" << COMMON::ID::STRINGIFY(THIS->CLIENT_ID_)
-    //      << " TICKER:" << COMMON::ID::STRINGIFY(THIS->TICKER_ID_)
-    //      << " COID:" << COMMON::ID::STRINGIFY(THIS->CLIENT_ORDER_ID_)
-    //      << " MOID:" << COMMON::ID::STRINGIFY(THIS->MARKET_ORDER_ID_)
-    //      << " SIDE:" << COMMON::SIDE::STRINGIFY(THIS->SIDE_.VALUE)
-    //      << " EXEC_QTY:" << COMMON::QUANTITY_STRINGIFY(THIS->EXEC_QTY_)
-    //      << " LEAVES_QTY:" << COMMON::QUANTITY_STRINGIFY(THIS->LEAVES_QTY_)
-    //      << " PRICE:" << COMMON::PRICE_STRINGIFY(THIS->PRICE_) << "]";
-    //   RETURN SS.STR();
-    // }
+    auto toString() const {
+      std::stringstream ss;
+      ss << "response"
+         << " ["
+         << "type:" << stringifyType(this->type_)
+         << " client:" << common::id::stringify(this->client_id_)
+         << " ticker:" << common::id::stringify(this->ticker_id_)
+         << " coid:" << common::id::stringify(this->client_order_id_)
+         << " moid:" << common::id::stringify(this->market_order_id_)
+         << " side:" << common::Side::stringify(this->side_.value)
+         << " exec_qty:" << common::Quantity_stringify(this->exec_qty_)
+         << " leaves_qty:" << common::Quantity_stringify(this->leaves_qty_)
+         << " price:" << common::Price_stringify(this->price_) << "]";
+      return ss.str();
+    }
 };
 #pragma pack(pop)

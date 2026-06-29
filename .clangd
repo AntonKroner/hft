@@ -1,7 +1,7 @@
 CompileFlags:
-#  Add: []
+  Add: []
   Remove: ["-fmodules-ts", "-flang-info-module-cmi", "-fdeps-format=p1689r5", "-fmodule-mapper=*"]
-
+  BuiltinHeaders: "QueryDriver"
 Hover:
   ShowAKA: true
 Index:

@@ -35,18 +35,18 @@ export struct MarketUpdate {
     common::Price price = common::PRICE_INVALID;
     common::Quantity quantity = common::QUANTITY_INVALID;
     common::Priority priority = common::PRIORITY_INVALID;
-    // auto toString() const {
-    //   std::stringstream ss;
-    //   ss << "MarketUpdate"
-    //      << " ["
-    //      << " type:" << stringifyType(this->type)
-    //      << " ticker:" << common::id::stringify(this->tickerId)
-    //      << " oid:" << common::id::stringify(this->orderId)
-    //      << " side:" << common::Side::stringify(this->side.value)
-    //      << " qty:" << common::Quantity_stringify(this->quantity)
-    //      << " price:" << common::Price_stringify(this->price)
-    //      << " priority:" << common::Priority_stringify(this->priority) << "]";
-    //   return ss.str();
-    // }
+    auto toString() const {
+      std::stringstream ss;
+      ss << "MarketUpdate"
+         << " ["
+         << " type:" << stringifyType(this->type)
+         << " ticker:" << common::id::stringify(this->tickerId)
+         << " oid:" << common::id::stringify(this->orderId)
+         << " side:" << common::Side::stringify(this->side.value)
+         << " qty:" << common::Quantity_stringify(this->quantity)
+         << " price:" << common::Price_stringify(this->price)
+         << " priority:" << common::Priority_stringify(this->priority) << "]";
+      return ss.str();
+    }
 };
 #pragma pack(pop)
