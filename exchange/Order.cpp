@@ -1,6 +1,6 @@
 module;
 #include <array>
-// #include <sstream>
+#include <sstream>
 export module Order;
 import common;
 export struct Order {
@@ -38,25 +38,29 @@ export struct Order {
       , prev_order_(prev_order)
       , next_order_(next_order) {
     }
-    // auto toString() const -> std::string {
-    //   std::stringstream ss;
-    //   ss << "MEOrder" << "["
-    //      << "ticker:" << tickerIdToString(ticker_id_) << " "
-    //      << "cid:" << clientIdToString(client_id_) << " "
-    //      << "oid:" << orderIdToString(client_order_id_) << " "
-    //      << "moid:" << orderIdToString(market_order_id_) << " "
-    //      << "side:" << sideToString(side_) << " "
-    //      << "price:" << priceToString(price_) << " "
-    //      << "qty:" << qtyToString(quantity_) << " "
-    //      << "prio:" << priorityToString(priority_) << " "
-    //      << "prev:"
-    //      << orderIdToString(prev_order_ ? prev_order_->market_order_id_ : OrderId_INVALID)
-    //      << " "
-    //      << "next:"
-    //      << orderIdToString(next_order_ ? next_order_->market_order_id_ : OrderId_INVALID)
-    //      << "]";
-    //   return ss.str();
-    // }
+    auto toString() const -> std::string {
+      std::stringstream ss;
+      ss << "MEOrder" << "["
+         << "ticker:" << common::id::stringify(ticker_id_) << " "
+         << "cid:" << common::id::stringify(client_id_) << " "
+         << "oid:" << common::id::stringify(client_order_id_) << " "
+         << "moid:" << common::id::stringify(market_order_id_) << " "
+         << "side:" << common::Side::stringify(side_.value) << " "
+         << "price:" << common::Price_stringify(price_) << " "
+         << "qty:" << common::Quantity_stringify(quantity_) << " "
+         << "prio:" << common::Priority_stringify(priority_) << " "
+         << "prev:"
+         << common::id::stringify(
+              prev_order_ ? prev_order_->market_order_id_
+                          : common::id::INVALID<common::id::Order>)
+         << " "
+         << "next:"
+         << common::id::stringify(
+              next_order_ ? next_order_->market_order_id_
+                          : common::id::INVALID<common::id::Order>)
+         << "]";
+      return ss.str();
+    }
 };
 typedef std::array<Order*, common::ME_MAX_ORDER_IDS> OrderHashMap;
 typedef std::array<OrderHashMap, common::ME_MAX_NUM_CLIENTS> ClientOrderHashMap;
@@ -79,18 +83,22 @@ struct OrdersAtPrice {
       , prev_entry_(prev_entry)
       , next_entry_(next_entry) {
     }
-    // auto toString() const {
-    //   std::stringstream ss;
-    //   ss << "OrdersAtPrice["
-    //      << "side:" << sideToString(side_) << " "
-    //      << "price:" << priceToString(price_) << " "
-    //      << "first_me_order:" << (first_me_order_ ? first_me_order_->toString() : "null")
-    //      << " "
-    //      << "prev:" << priceToString(prev_entry_ ? prev_entry_->price_ : Price_INVALID)
-    //      << " "
-    //      << "next:" << priceToString(next_entry_ ? next_entry_->price_ : Price_INVALID)
-    //      << "]";
-    //   return ss.str();
-    // }
+    auto toString() const {
+      std::stringstream ss;
+      ss << "OrdersAtPrice["
+         << "side:" << common::Side::stringify(side_.value) << " "
+         << "price:" << common::Price_stringify(price_) << " "
+         << "first_me_order:" << (first_me_order_ ? first_me_order_->toString() : "null")
+         << " "
+         << "prev:"
+         << common::Price_stringify(
+              prev_entry_ ? prev_entry_->price_ : common::PRICE_INVALID)
+         << " "
+         << "next:"
+         << common::Price_stringify(
+              next_entry_ ? next_entry_->price_ : common::PRICE_INVALID)
+         << "]";
+      return ss.str();
+    }
 };
 typedef std::array<OrdersAtPrice*, common::ME_MAX_PRICE_LEVELS> OrdersAtPriceHashMap;

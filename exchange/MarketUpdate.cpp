@@ -1,7 +1,7 @@
 module;
 #include <cstdint>
 #include <string>
-// #include <sstream>
+#include <sstream>
 export module MarketUpdate;
 import common;
 #pragma pack(push, 1)

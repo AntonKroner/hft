@@ -1,9 +1,15 @@
 module;
 #include <csignal>
+#include <thread>
+#include "../common/time_utils.hpp"
 export module main;
 import common;
-Common::Logger* logger = nullptr;
-Exchange::MatchingEngine* matching_engine = nullptr;
+import MatchingEngine;
+import Request;
+import Response;
+import MarketUpdate;
+common::Log* logger = nullptr;
+MatchingEngine* matching_engine = nullptr;
 void signal_handler(int) {
   using namespace std::literals::chrono_literals;
   std::this_thread::sleep_for(10s);
@@ -14,13 +20,13 @@ void signal_handler(int) {
   std::this_thread::sleep_for(10s);
   exit(EXIT_SUCCESS);
 }
-export int main(int, char**) {
-  logger = new Common::Logger("exchange_main.log");
+export extern "C++" int main(int, char**) {
+  logger = new common::Log("logs/exchange_main.log");
   std::signal(SIGINT, signal_handler);
   const int sleep_time = 100 * 1000;
-  common::Queue<Request> requests(ME_MAX_CLIENT_UPDATES);
-  common::Queue<Response> responses(ME_MAX_CLIENT_UPDATES);
-  common::Queue<MarketUpdate> updates(ME_MAX_MARKET_UPDATES);
+  common::Queue<Request> requests(common::ME_MAX_CLIENT_UPDATES);
+  common::Queue<Response> responses(common::ME_MAX_CLIENT_UPDATES);
+  common::Queue<MarketUpdate> updates(common::ME_MAX_MARKET_UPDATES);
   std::string time_str;
   logger->log(
     "%:% %() % Starting Matching Engine...\n",
@@ -28,7 +34,7 @@ export int main(int, char**) {
     __LINE__,
     __FUNCTION__,
     Common::getCurrentTimeStr(&time_str));
-  matching_engine = new Exchange::MatchingEngine(&requests, &responses, &updates);
+  matching_engine = new MatchingEngine(&requests, &responses, &updates);
   matching_engine->start();
   while (true) {
     logger->log(

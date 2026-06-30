@@ -86,7 +86,7 @@ namespace common {
         ASSERT(file_.is_open(), "Could not open log file:" + file_name);
         logger_thread_ =
           Common::createAndStartThread(-1, "Common/Logger " + file_name_, [this]() {
-            flush();
+            this->flush();
           });
         ASSERT(logger_thread_ != nullptr, "Failed to start Logger thread.");
       }
