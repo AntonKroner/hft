@@ -25,11 +25,11 @@ namespace common {
       template<typename... Args> T* allocate(Args... args) noexcept {
         auto obj_block = &(store_[next]);
         ASSERT(
-          obj_block->is_free_,
+          obj_block->isFree_,
           "Expected free ObjectBlock at index:" + std::to_string(next));
         T* ret = &(obj_block->object_);
         ret = new (ret) T(args...); // placement new.
-        obj_block->is_free_ = false;
+        obj_block->isFree_ = false;
         updateNextFreeIndex();
         return ret;
       }
@@ -39,13 +39,13 @@ namespace common {
           elem_index >= 0 && static_cast<size_t>(elem_index) < store_.size(),
           "Element being deallocated does not belong to this Memory pool.");
         ASSERT(
-          !store_[elem_index].is_free_,
+          !store_[elem_index].isFree_,
           "Expected in-use ObjectBlock at index:" + std::to_string(elem_index));
-        store_[elem_index].is_free_ = true;
+        store_[elem_index].isFree_ = true;
       }
       auto updateNextFreeIndex() noexcept {
         const auto initial_free_index = next;
-        while (!store_[next].is_free_) {
+        while (!store_[next].isFree_) {
           ++next;
           // hardware branch predictor should almost always predict this to be false any ways.
           if (UNLIKELY(next == store_.size())) {

@@ -61,44 +61,44 @@ export struct Order {
          << "]";
       return ss.str();
     }
+    typedef std::array<Order*, common::ME_MAX_ORDER_IDS> OrderHashMap;
+    typedef std::array<OrderHashMap, common::ME_MAX_NUM_CLIENTS> ClientOrderHashMap;
+    struct OrdersAtPrice {
+        common::Side side_ = common::Side::INVALID;
+        common::Price price_ = common::PRICE_INVALID;
+        Order* first_me_order_ = nullptr;
+        OrdersAtPrice* prev_entry_ = nullptr;
+        OrdersAtPrice* next_entry_ = nullptr;
+        OrdersAtPrice() = default;
+        OrdersAtPrice(
+          common::Side side,
+          common::Price price,
+          Order* first_me_order,
+          OrdersAtPrice* prev_entry,
+          OrdersAtPrice* next_entry)
+          : side_(side)
+          , price_(price)
+          , first_me_order_(first_me_order)
+          , prev_entry_(prev_entry)
+          , next_entry_(next_entry) {
+        }
+        auto toString() const {
+          std::stringstream ss;
+          ss << "OrdersAtPrice["
+             << "side:" << common::Side::stringify(side_.value) << " "
+             << "price:" << common::Price_stringify(price_) << " "
+             << "first_me_order:"
+             << (first_me_order_ ? first_me_order_->toString() : "null") << " "
+             << "prev:"
+             << common::Price_stringify(
+                  prev_entry_ ? prev_entry_->price_ : common::PRICE_INVALID)
+             << " "
+             << "next:"
+             << common::Price_stringify(
+                  next_entry_ ? next_entry_->price_ : common::PRICE_INVALID)
+             << "]";
+          return ss.str();
+        }
+    };
+    typedef std::array<OrdersAtPrice*, common::ME_MAX_PRICE_LEVELS> OrdersAtPriceHashMap;
 };
-typedef std::array<Order*, common::ME_MAX_ORDER_IDS> OrderHashMap;
-typedef std::array<OrderHashMap, common::ME_MAX_NUM_CLIENTS> ClientOrderHashMap;
-struct OrdersAtPrice {
-    common::Side side_ = common::Side::INVALID;
-    common::Price price_ = common::PRICE_INVALID;
-    Order* first_me_order_ = nullptr;
-    OrdersAtPrice* prev_entry_ = nullptr;
-    OrdersAtPrice* next_entry_ = nullptr;
-    OrdersAtPrice() = default;
-    OrdersAtPrice(
-      common::Side side,
-      common::Price price,
-      Order* first_me_order,
-      OrdersAtPrice* prev_entry,
-      OrdersAtPrice* next_entry)
-      : side_(side)
-      , price_(price)
-      , first_me_order_(first_me_order)
-      , prev_entry_(prev_entry)
-      , next_entry_(next_entry) {
-    }
-    auto toString() const {
-      std::stringstream ss;
-      ss << "OrdersAtPrice["
-         << "side:" << common::Side::stringify(side_.value) << " "
-         << "price:" << common::Price_stringify(price_) << " "
-         << "first_me_order:" << (first_me_order_ ? first_me_order_->toString() : "null")
-         << " "
-         << "prev:"
-         << common::Price_stringify(
-              prev_entry_ ? prev_entry_->price_ : common::PRICE_INVALID)
-         << " "
-         << "next:"
-         << common::Price_stringify(
-              next_entry_ ? next_entry_->price_ : common::PRICE_INVALID)
-         << "]";
-      return ss.str();
-    }
-};
-typedef std::array<OrdersAtPrice*, common::ME_MAX_PRICE_LEVELS> OrdersAtPriceHashMap;
