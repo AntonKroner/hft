@@ -242,13 +242,13 @@ auto OrderBook::match(
     fill_qty,
     *leaves_qty
   };
-  // matching_engine_->sendClientResponse(&client_response_);
+  matching_engine_->sendClientResponse(&client_response_);
   client_response_ = {
     Response::Type::FILLED,  order->client_id_, ticker_id,   order->client_order_id_,
     order->market_order_id_, order->side_,      itr->price_, fill_qty,
     order->quantity_
   };
-  // matching_engine_->sendClientResponse(&client_response_);
+  matching_engine_->sendClientResponse(&client_response_);
   market_update_ = { MarketUpdate::Type::TRADE,
                      common::id::INVALID<common::id::Order>,
                      ticker_id,
@@ -256,7 +256,7 @@ auto OrderBook::match(
                      itr->price_,
                      fill_qty,
                      common::PRIORITY_INVALID };
-  // matching_engine_->sendMarketUpdate(&market_update_);
+  matching_engine_->sendMarketUpdate(&market_update_);
   if (!order->quantity_) {
     market_update_ = { MarketUpdate::Type::CANCEL,
                        order->market_order_id_,
@@ -265,7 +265,7 @@ auto OrderBook::match(
                        order->price_,
                        order_qty,
                        common::PRIORITY_INVALID };
-    // matching_engine_->sendMarketUpdate(&market_update_);
+    matching_engine_->sendMarketUpdate(&market_update_);
     removeOrder(order);
   }
   else {
@@ -276,7 +276,7 @@ auto OrderBook::match(
                        order->price_,
                        order->quantity_,
                        order->priority_ };
-    // matching_engine_->sendMarketUpdate(&market_update_);
+    matching_engine_->sendMarketUpdate(&market_update_);
   }
 }
 auto OrderBook::checkForMatch(
@@ -341,7 +341,7 @@ auto OrderBook::add(
     0,
     qty
   };
-  // matching_engine_->sendClientResponse(&client_response_);
+  matching_engine_->sendClientResponse(&client_response_);
   const auto leaves_qty = checkForMatch(
     client_id,
     client_order_id,
@@ -371,7 +371,7 @@ auto OrderBook::add(
                        price,
                        leaves_qty,
                        priority };
-    // matching_engine_->sendMarketUpdate(&market_update_);
+    matching_engine_->sendMarketUpdate(&market_update_);
   }
 }
 auto OrderBook::cancel(
@@ -416,9 +416,9 @@ auto OrderBook::cancel(
       exchange_order->priority_
     };
     removeOrder(exchange_order);
-    // matching_engine_->sendMarketUpdate(&market_update_);
+    matching_engine_->sendMarketUpdate(&market_update_);
   }
-  // matching_engine_->sendClientResponse(&client_response_);
+  matching_engine_->sendClientResponse(&client_response_);
 }
 auto OrderBook::toString(bool detailed, bool validity_check) const -> std::string {
   std::stringstream ss;
