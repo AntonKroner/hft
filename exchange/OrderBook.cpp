@@ -11,8 +11,9 @@ export class OrderBook final {
   public:
     class MatchingEngine {
       public:
-        void sendClientResponse(const Response* response) noexcept;
-        void sendMarketUpdate(const MarketUpdate* update) noexcept;
+        virtual ~MatchingEngine() = default;
+        virtual void sendClientResponse(const Response* response) noexcept = 0;
+        virtual void sendMarketUpdate(const MarketUpdate* update) noexcept = 0;
     };
     explicit OrderBook(
       common::id::Ticker ticker_id,
